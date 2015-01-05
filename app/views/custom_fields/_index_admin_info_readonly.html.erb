@@ -1,0 +1,131 @@
+<% selected_tracker_id = params['tracker_id'] %>
+
+
+<% if tab[:name] == 'IssueCustomField' %>
+  <%
+    tracker_hash = {}
+    
+    (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field|
+        custom_field.trackers.each do |tracker|
+            tracker_hash[tracker.id] = tracker.name
+        end
+    end
+  %>
+  <% if !tracker_hash.blank? %> 
+      <select id="tracker_selecter">
+          <option value=""></option>
+          <% tracker_hash.each do |id,tracker_name| %>
+              <option 
+                value="<%= id %>"
+                <% if selected_tracker_id.to_s == id.to_s %>
+                    selected="selected"
+                <% end %>
+                ><%= tracker_name %></option>
+          <% end %>
+      </select>
+  <% end %>
+
+<% end %>
+
+<table class="list">
+  <thead><tr>
+    <th ><%=l(:field_name)%></th>
+    <th><%=l(:field_field_format)%></th>
+    <th><%=l(:field_is_required)%></th>
+    <% if tab[:name] == 'IssueCustomField' %>
+      <th><%=l(:field_is_for_all)%></th>
+      <th><%=l(:label_used_by)%></th>
+      <th><%=l(:label_tracker)%></th>
+      <th><%= l(:modify_custom_fields_proposer) %></th>
+      <th><%= l(:modify_custom_fields_comment) %></th>
+    <% end %>
+  </tr></thead>
+  <tbody>
+
+  
+  <% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
+    <tr       
+        
+        class="<%= cycle("odd", "even") %><% if tab[:name] == 'IssueCustomField' %> tracker_id_class_all <% custom_field.trackers.each do |tracker| %>tracker_id_class_<%= tracker.id %>  <% end %><% end %>">
+          <td><a href="/custom_fields/<%= custom_field.id %>/modify_edit_admin_info_readonly?tracker_id=<%=  selected_tracker_id %>"><%= h(custom_field.name) %></a></td>
+
+      <td align="center"><%= l(Redmine::CustomFieldFormat.label_for(custom_field.field_format)) %></td>
+      <td align="center"><%= checked_image custom_field.is_required? %></td>
+      <% if tab[:name] == 'IssueCustomField' %>
+          <td align="center"><%= checked_image custom_field.is_for_all? %></td>
+          <td align="center" 
+          
+          title="<%custom_field.projects.each do |proj|%><%= proj.name %>
+    <% end %>"
+          
+          ><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
+          <td >
+                <% custom_field.trackers.each do |tracker| %>
+                    <%= tracker.name %> 
+                <% end %>
+          </td>
+          <%  
+            extension_infos = CustomFieldsExtension.where(["custom_field_id = ?",custom_field.id])  
+            extension_info = extension_infos.blank? ? nil : extension_infos[0]
+          %>
+          <td>
+            <%  if !extension_info.blank? && !extension_info.proposer_id.blank? %>
+                <% proposer = User.find(extension_info.proposer_id) %>
+                <% if !proposer.nil? %>
+                    <%= proposer.lastname %><%= proposer.firstname %>
+                <% end %>
+            <% end %>
+          <td><%=  extension_info.blank? ? "" : extension_info.comment %></td>
+      <% end %>
+
+
+    </tr>
+  <% end; reset_cycle %>
+  </tbody>
+</table>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    <% if tab[:name] == 'IssueCustomField' %>
+        tracker_val = $("#tracker_selecter").val();
+        if (tracker_val != "") {
+            $(".tracker_id_class_all").hide();
+            $(".tracker_id_class_" + tracker_val).show();
+        } 
+
+        $("#tracker_selecter").change(function() {
+            tracker_val = $("#tracker_selecter").val();
+            window.location.href = "/custom_fields_admin_info_readonly?tab=IssueCustomField&tracker_id=" + tracker_val;
+        });
+
+    <% end %>   
+    
+   
+
+
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

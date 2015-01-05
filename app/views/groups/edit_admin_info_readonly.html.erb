@@ -1,0 +1,21 @@
+<h2><%= link_to l(:label_group_plural), :action=>"index_admin_info_readonly" %> &#187; <%= h(@group) %></h2>
+
+<%
+
+    @tabs = [{:name => 'users', :partial => 'groups/users_admin_info_readonly', :label => :label_user_plural}]
+
+%>
+
+<%= render_tabs @tabs %>
+
+<% html_title(l(:label_group), @group, l(:label_administration)) -%>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sidebar").hide();
+    $("#content").css("width", "100%");
+
+
+});
+
+</script>

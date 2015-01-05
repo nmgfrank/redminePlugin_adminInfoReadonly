@@ -1,0 +1,38 @@
+<h2><%=l(:label_custom_field_plural)%></h2>
+
+<%
+    my_custom_fields_tabs = [
+    {:name => 'IssueCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => :label_issue_plural},
+    {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => :label_spent_time},
+    {:name => 'ProjectCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => :label_project_plural},
+    {:name => 'VersionCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => :label_version_plural},
+    {:name => 'UserCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => :label_user_plural},
+    {:name => 'GroupCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => :label_group_plural},
+    {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => TimeEntryActivity::OptionName},
+    {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => IssuePriority::OptionName},
+    {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index_admin_info_readonly',
+     :label => DocumentCategory::OptionName}
+  ]
+%>
+
+<%= render_tabs my_custom_fields_tabs %>
+
+<% html_title(l(:label_custom_field_plural)) -%>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sidebar").hide();
+    $("#content").css("width", "100%");
+
+
+});
+
+</script>

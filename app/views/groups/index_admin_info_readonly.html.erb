@@ -1,0 +1,34 @@
+
+
+<h2><%= l(:label_group_plural) %></h2>
+
+<% if @groups.any? %>
+<table class="list groups">
+  <thead><tr>
+  <th><%=l(:label_group)%></th>
+  <th><%=l(:label_user_plural)%></th>
+  
+  </tr></thead>
+  <tbody>
+<% @groups.each do |group| %>
+  <% Rails.logger.info  group.to_s %>
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <td><%= link_to h(group), :action=>"edit_admin_info_readonly",:id=>group.id %></td>
+    <td align="center"><%= group.users.size %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %> 
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sidebar").hide();
+    $("#content").css("width", "100%");
+
+
+});
+
+</script>

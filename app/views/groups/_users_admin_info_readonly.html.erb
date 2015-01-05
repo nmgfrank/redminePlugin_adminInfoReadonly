@@ -1,0 +1,20 @@
+<div class="splitcontentleft">
+<% if @group.users.any? %>
+  <table class="list users">
+    <thead><tr>
+      <th><%= l(:label_user) %></th>
+    </tr></thead>
+    <tbody>
+    <% @group.users.sort.each do |user| %>
+      <tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
+        <td class="user"><%= user.lastname %> <%= user.firstname %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+</div>
+
+
