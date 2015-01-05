@@ -5,6 +5,6 @@ In the original redmine, only system administrators can view and manage custom f
 
 1. View info of workflows
 
-Enter the url: http://[redmine_basic_url]/workflows/permissions_admin_info_readonly
-   
+Enter the url:  [redmine_basic_url]/workflows/permissions_admin_info_readonly
+![image](https://github.com/nmgfrank/admin_info_readonly/blob/master/readme_pic/workflow_status.jpg)  
  
